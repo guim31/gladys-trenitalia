@@ -1,0 +1,38 @@
+[
+  {
+    "nomeLungo": "FIRENZE SANTA MARIA NOVELLA",
+    "nomeBreve": "FIRENZE S.M.N.",
+    "label": "Firenze",
+    "id": "S06421"
+  },
+  {
+    "nomeLungo": "FIRENZE CAMPO MARTE",
+    "nomeBreve": "FIRENZE C.M.",
+    "label": "Firenze",
+    "id": "S06900"
+  },
+  {
+    "nomeLungo": "FIRENZE CASTELLO",
+    "nomeBreve": "FI CASTELLO",
+    "label": "Fi",
+    "id": "S06419"
+  },
+  {
+    "nomeLungo": "FIRENZE RIFREDI",
+    "nomeBreve": "FIRENZE RIFREDI",
+    "label": "Firenze",
+    "id": "S06420"
+  },
+  {
+    "nomeLungo": "FIRENZE ROVEZZANO",
+    "nomeBreve": "Fi Rovezzano",
+    "label": "Rovezzano",
+    "id": "S06901"
+  },
+  {
+    "nomeLungo": "FIRENZE STATUTO",
+    "nomeBreve": "FIRENZE STATUTO",
+    "label": "Firenze",
+    "id": "S06430"
+  }
+]

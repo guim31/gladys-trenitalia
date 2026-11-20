@@ -31,16 +31,19 @@ pushing.
 ## Architecture
 
 ```
-index.js                          SDK wiring only: handlers registered before connect()
-src/devices/index.js              registry of the device blueprints + dispatch helpers
-src/devices/<type>.js             one device type per file (buildDevice, onPoll, onSetValue...)
-src/scenes.js                     scene action handlers (manifest `scene_actions`)
-src/widgets.js                    dashboard widget handlers (manifest `widgets`)
-src/config.js                     DEFAULT_CONFIG (mirrors the manifest defaults) + normalization
-src/weather.js                    example driver (Open-Meteo)
-gladys-assistant-integration.json manifest: name, config_schema, actions, image...
-docs/en.md, docs/fr.md            user documentation, re-hosted by Gladys (mandatory)
-test/                             node --test, against the SDK's fake Gladys (integration-sdk/testing)
+index.js                          SDK wiring only (src/app.js registers the handlers)
+src/app.js                        every SDK handler on the service, actions throw ActionFailure
+src/service.js                    watched stations, refresh timer, states, scene triggers, actions
+src/viaggiatreno.js               Viaggiatreno client (search, station of a code, departures)
+src/trains.js                     pure: departures, filters, ageing, names, station pick
+src/devices.js                    the station device, its states
+src/scenes.js                     scene action get_next_departures
+src/widgets.js                    dashboard widget departures
+src/messages.js                   texts in en/fr/de/es, ActionFailure
+src/config.js / src/store.js      config normalization / /data/watch.json
+gladys-assistant-integration.json manifest
+docs/{en,fr,de,es}.md             user documentation, re-hosted by Gladys
+test/                             node --test, fake Gladys + recorded answers (test/fixtures/viaggiatreno)
 .github/scripts/release.mjs       release helpers (manifest bump, changelog), tested in test/
 ```
 
@@ -259,3 +262,25 @@ long, et sur un « Sie »/« Ihr… » de politesse en allemand. Le store exige 
 - Docs `en`, `fr`, `de`, `es` avec les mêmes sections.
 - Chauffe, ouverture, sécurité : ne rien rendre pilotable « comme un thermostat » ou par un assistant
   vocal quand une erreur serait dangereuse (leçon d'OctoPrint).
+
+## Trenitalia / Viaggiatreno (API et pièges, 20/11/2026)
+
+- Base `http://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno/` : HTTP seulement (le HTTPS
+  redirige en 301 vers lui). Ni clé, ni quota publié, ni documentation : service officieux.
+- **Akamai répond 403** à un User-Agent de ligne de commande (`curl/…`) ou absent ; un UA de
+  navigateur, même court (`Mozilla/5.0 (X11; Linux x86_64) gladys-trenitalia`), passe. Le faux
+  `fetch` des tests rejoue ce 403.
+- `partenze/<code>/<date>` : la date doit être la forme JavaScript **en anglais** (`Fri Nov 20 2026
+21:52:00 GMT+0000`, encodée), sinon 400. Écrite en UTC par `apiDate`, indépendante de la locale.
+  Une date passée ne donne pas le tableau du passé : la réponse est toujours le tableau courant
+  (les trains de l'heure ou des deux heures qui viennent, plus ceux qui viennent de partir).
+- Champs utiles : `numeroTreno`, `dataPartenzaTreno` (clé du train avec le numéro), `orarioPartenza`
+  (ms, heure théorique), `ritardo` (**null** tant que le train n'a pas quitté son origine),
+  `provvedimento` (**1 = supprimé**, 3 = dévié mais circule), `compInStazionePartenza[0] ===
+'Partito'` (déjà parti : écarté), `binarioEffettivoPartenzaDescrizione` puis
+  `binarioProgrammatoPartenzaDescrizione`. La catégorie des Frecciarossa n'est que dans
+  `categoriaDescrizione` (`" FR"`, `categoria` vide) : prendre celle-ci, `trim`.
+- Recherche : `cercaStazione/<texte>` (JSON, **début du nom seulement**, sans accents : « forlì »
+  ne trouve rien, « FORLI » oui). Un code se résout par `regione/<code>` (204 vide si inconnu) puis
+  `dettaglioStazione/<code>/<région>` → `localita.nomeLungo`. Code inconnu dans `partenze` : `[]`.
+- Les heures affichées sont celles de l'Italie (`Intl`, `Europe/Rome`), pas le `TZ` de Gladys.

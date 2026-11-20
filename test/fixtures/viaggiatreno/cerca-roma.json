@@ -1,0 +1,122 @@
+[
+  {
+    "nomeLungo": "ROMA TERMINI",
+    "nomeBreve": "ROMA TERMINI",
+    "label": "Roma",
+    "id": "S08409"
+  },
+  {
+    "nomeLungo": "ROMA ANAGNINA",
+    "nomeBreve": "Roma Anagnina",
+    "label": "Roma",
+    "id": "S08050"
+  },
+  {
+    "nomeLungo": "ROMA AURELIA",
+    "nomeBreve": "Roma Aurelia",
+    "label": "Roma",
+    "id": "S08025"
+  },
+  {
+    "nomeLungo": "ROMA BALDUINA",
+    "nomeBreve": "Roma Balduina",
+    "label": "Roma",
+    "id": "S08327"
+  },
+  {
+    "nomeLungo": "ROMA CASILINA",
+    "nomeBreve": "ROMA CASILINA",
+    "label": "Roma",
+    "id": "S08674"
+  },
+  {
+    "nomeLungo": "ROMA MONTE MARIO",
+    "nomeBreve": "Roma Monte Mario",
+    "label": "Roma",
+    "id": "S08322"
+  },
+  {
+    "nomeLungo": "ROMA NOMENTANA LL",
+    "nomeBreve": "Roma Nom. L.L.",
+    "label": "Roma",
+    "id": "S08236"
+  },
+  {
+    "nomeLungo": "ROMA NOMENTANA LM",
+    "nomeBreve": "Roma Noment. LM",
+    "label": "Roma",
+    "id": "S08232"
+  },
+  {
+    "nomeLungo": "ROMA OSTIENSE",
+    "nomeBreve": "ROMA OSTIENSE",
+    "label": "Roma",
+    "id": "S08406"
+  },
+  {
+    "nomeLungo": "ROMA PIGNETO",
+    "nomeBreve": "Roma Pigneto",
+    "label": "Roma",
+    "id": "S08033"
+  },
+  {
+    "nomeLungo": "ROMA PRENESTINA",
+    "nomeBreve": "ROMA PRENESTINA",
+    "label": "Roma",
+    "id": "S08500"
+  },
+  {
+    "nomeLungo": "ROMA S.FILIPPO NERI",
+    "nomeBreve": "Rm S.Filippo N.",
+    "label": "Rm",
+    "id": "S08325"
+  },
+  {
+    "nomeLungo": "ROMA S.PIETRO",
+    "nomeBreve": "ROMA S.PIETRO",
+    "label": "Roma",
+    "id": "S08323"
+  },
+  {
+    "nomeLungo": "ROMA TIBURTINA",
+    "nomeBreve": "ROMA TIBURTINA",
+    "label": "Roma",
+    "id": "S08217"
+  },
+  {
+    "nomeLungo": "ROMA TRASTEVERE",
+    "nomeBreve": "Roma Trastevere",
+    "label": "Roma",
+    "id": "S08405"
+  },
+  {
+    "nomeLungo": "ROMA TUSCOLANA",
+    "nomeBreve": "ROMA TUSCOLANA",
+    "label": "Roma",
+    "id": "S08408"
+  },
+  {
+    "nomeLungo": "ROMAGNANO SESIA",
+    "nomeBreve": "ROMAGNANO SESIA",
+    "label": "Romagnano",
+    "id": "S00109"
+  },
+  {
+    "nomeLungo": "ROMAGNANO-VIETRI-SALVITELLE",
+    "nomeBreve": "Romagnano v.",
+    "label": "Romagnano",
+    "id": "S09829"
+  },
+  {
+    "nomeLungo": "ROMANO",
+    "nomeBreve": "Romano",
+    "label": "Romano",
+    "id": "S01711"
+  },
+  {
+    "nomeLungo": "ROMANORE",
+    "nomeBreve": "Romanore",
+    "label": "Romanore",
+    "id": "S02337"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "nomeLungo": "TORINO PORTA NUOVA",
+    "nomeBreve": "TORINO P.NUOVA",
+    "label": "Torino",
+    "id": "S00219"
+  },
+  {
+    "nomeLungo": "TORINO AEROPORTO DI CASELLE",
+    "nomeBreve": "Torino Aeroporto",
+    "label": "Caselle",
+    "id": "S00088"
+  },
+  {
+    "nomeLungo": "TORINO CORSO GROSSETO",
+    "nomeBreve": "Torino Grosseto",
+    "label": "Gros.to",
+    "id": "S00097"
+  },
+  {
+    "nomeLungo": "TORINO DORA",
+    "nomeBreve": "Torino Dora",
+    "label": "Torino",
+    "id": "S00224"
+  },
+  {
+    "nomeLungo": "TORINO LINGOTTO",
+    "nomeBreve": "TO.LINGOTTO",
+    "label": "To.lingotto",
+    "id": "S00452"
+  },
+  {
+    "nomeLungo": "TORINO ORBASSANO S.LUIGI",
+    "nomeBreve": "To.Orb.S.Luigi",
+    "label": "To.orb.s.luigi",
+    "id": "S00193"
+  },
+  {
+    "nomeLungo": "TORINO PORTA SUSA",
+    "nomeBreve": "TORINO P. SUSA",
+    "label": "Torino",
+    "id": "S00035"
+  },
+  {
+    "nomeLungo": "TORINO REBAUDENGO FOSSATA",
+    "nomeBreve": "TO Reb.Fossata",
+    "label": "To",
+    "id": "S00060"
+  },
+  {
+    "nomeLungo": "TORINO S. PAOLO",
+    "nomeBreve": "Torino S.Paolo",
+    "label": null,
+    "id": "S00223"
+  },
+  {
+    "nomeLungo": "TORINO STURA",
+    "nomeBreve": "TORINO STURA",
+    "label": "Torino",
+    "id": "S00228"
+  }
+]
