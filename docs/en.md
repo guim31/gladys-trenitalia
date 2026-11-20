@@ -1,61 +1,155 @@
-# Demo Devices Template
+# Trenitalia
 
-This is the user documentation of the integration. Gladys re-hosts this file
-and shows a permanent **Documentation** link to it in the Configuration screen
-(in the user's language, with English as the fallback) — it is when
-configuring that the user needs it most. Keep the short onboarding hints in
-the `section` blocks of the manifest `config_schema`; put the long
-step-by-step (screenshots, troubleshooting…) here.
+The next trains of your stations in Italy, in Gladys: regional trains, Frecciarossa, Intercity…
+in real time, with delays, platforms and cancellations.
+
+The data comes from [Viaggiatreno](http://www.viaggiatreno.it), the real-time board of RFI and
+Trenitalia: **no account, no key**. Viaggiatreno is a public website, not an official API: it may
+change without notice. This integration is not affiliated with Trenitalia, RFI or the Ferrovie
+dello Stato Italiane group.
+
+> **Developed from outside Italy: feedback welcome.** It was built and tested on the live
+> Viaggiatreno service (Milano Centrale, Roma Termini, Firenze Santa Maria Novella, Torino Porta
+> Nuova), not yet in daily use.
 
 ## What you get
 
-Six demo devices show up after installation: a weather station (real data
-from Open-Meteo), a switch, a dimmable light, a smart plug with power
-metering, a motion sensor and a camera.
+- **A device per watched station**, optionally filtered by category of train (regional, Frecce,
+  Intercity) and by destination: minutes to the next train that runs and to the following one,
+  the delay of the next one, its time, number and destination (“22:50 FR 9663 → Napoli
+  Centrale”), its platform, and the number of cancelled trains on the board.
+- **A dashboard widget**: the next departures of a station, coloured by delay, cancellations
+  included.
+- **Three scene triggers**: time to leave (1 to 30 minutes before a departure), train delayed (5
+  to 60 minutes late) and train cancelled, each once per train.
+- **A scene action**: read the next trains of a station, with a sentence ready to send by message
+  or to a speaker.
+
+## Requirements
+
+- Gladys Assistant 5.3.0 or later.
+- Internet access from the Gladys host (the integration calls `www.viaggiatreno.it`).
+
+## Installation
+
+1. In Gladys, open **Integrations → Install from GitHub**.
+2. Paste `https://github.com/guim31/gladys-trenitalia` and install.
+3. Open the integration's **Configuration** tab to watch stations (below).
 
 ## Configuration
 
-1. Open the **Configuration** tab of the integration.
-2. Set the **latitude** and **longitude** the demo weather station should
-   observe (they default to Paris), and pick your temperature unit.
-   The **refresh interval** sets how often the weather station and the
-   plug's power are read: every 5 minutes by default, every minute at most.
-3. Save: the devices appear in the **Discovery** tab, ready to be added.
+### Settings
 
-The **Prefer the local connection** toggle drives the demo plug: it reports
-the channel it actually uses as a badge (local or cloud), with an orange dot
-when it runs degraded (local refused, cloud fallback).
+- **Language of the texts**: language of the feature names, of the texts of the devices and of
+  the sentences sent to your scenes (French by default). Feature names are set when a device is
+  created.
+- **Refresh interval**: 1, 2 or 5 minutes. Each refresh reads one board per watched station.
 
-## Actions
+### Watching a station
 
-- **Test the weather provider** — performs a live request to Open-Meteo and
-  shows the current temperature and humidity under the button.
-- **Identify a device** — pick one of your devices in the list and it will
-  signal itself (the demo light "blinks" in the logs).
+1. **Find a station**: type the beginning of its name (“Milano”, “Roma T”, “Forlì”). The answer
+   lists the matching stations with their code, such as `[S01700]`. Viaggiatreno matches the
+   beginning of the name only.
+2. **Watch a station**: type its full name or its code. Optional filters:
+   - **Category of train**: regional only (REG, RV), Frecce only (Frecciarossa, Frecciargento,
+     Frecciabianca) or Intercity only (IC, ICN, EC, EN).
+   - **Destination**: part of the destination of the trains — `Napoli`, `Torino`, `Lecce`…
+     A name matching several stations answers with their list: type the full name or the code.
+3. Open the **Discover** tab and create the device.
 
-## Scenes
+The same station can be watched several times with other filters: each one is a device.
 
-The integration adds its own cards to the scene editor (Gladys 5.1 or
-later), under the **Integrations** category:
+### Removing, checking the state
 
-- **Motion detected** (trigger) — starts the scene when a demo motion sensor
-  sees something move. Optionally pick the sensor and what moved (person,
-  animal); left empty, any detection matches. The following actions can
-  read what moved with `{{triggerEvent.data.target}}`.
-- **Identify a device** (action) — makes the chosen device signal itself.
-  It returns whether the device could signal itself, so the following
-  actions can depend on it.
+- **Stop watching a station**: type the name shown by **Status**. Its device stays in Gladys
+  until you delete it.
+- **Status**: the watched stations, whether their device is created, the last read of
+  Viaggiatreno and the last error.
 
-## Dashboard
+A failure (nothing found, Viaggiatreno unreachable) shows in red, a success in green.
 
-Add the **Demo status** widget to a dashboard: it shows the live
-temperature of the weather station and the power of the office plug, the
-connection the plug currently uses (orange when degraded) and the observed
-location. Its **Identify the light** button makes the demo light signal
-itself.
+## Devices
+
+Each watched station has six features:
+
+| Feature                    | Value                                                            |
+| -------------------------- | ---------------------------------------------------------------- |
+| Next train                 | minutes to the next train that runs; 1440 when none is announced |
+| Following train            | minutes to the one after; 1440 when none                         |
+| Delay of the next train    | minutes late (an early train counts as on time); 0 when none     |
+| Next train and destination | “22:50 FR 9663 → Napoli Centrale”, or “No train announced”       |
+| Platform of the next train | the actual platform when known, else the scheduled one; “–” else |
+| Cancelled trains           | the number of cancelled trains on the board of the watch         |
+
+Times are Italian time, delay included. A cancelled train is never “the next train”. A train
+whose time has passed but that has not left yet counts as leaving now, late by the minutes already gone; 15 minutes after its time without news, it is taken as gone. The “Train delayed” trigger only follows the delay Viaggiatreno reports. Viaggiatreno only gives
+the delay of a train once it has left its origin: before, it counts as on time. Between two
+reads the countdowns go on from the last answer.
+
+## Dashboard widgets
+
+**Next trains**: pick a watched station. Each row shows the time and destination, then the wait,
+the train, its platform and its delay: green on time, orange from 3 minutes late, red from 10 or
+when cancelled. Settings: the number of departures shown (3 to 10), the legend and the cancelled
+trains, both of which can be hidden. The heading is the name of the device in Gladys.
+
+## Scene triggers
+
+- **Time to leave**: a train leaves the chosen station in the chosen number of minutes (1 to 30).
+- **Train delayed**: a train still to leave the chosen station reaches the chosen delay (5 to 60
+  minutes).
+- **Train cancelled**: a train still to leave the chosen station is announced cancelled.
+
+Each threshold fires once per train. Nothing fires at the first read after a start: what was
+already on the board is not news. Variables: station, destination, category, train number,
+minutes to wait, delay, expected and scheduled time, platform.
+
+## Scene actions
+
+**Get the next trains**: for a watched station, returns `sentence` (“REG 2986 to Saronno from
+Milano Centrale: in 3 min, platform 8, then REG 2387 to Voghera in 13 min.”), `station_name`,
+`destination`, `category`, `train_number`, `minutes`, `following_minutes`, `delay`,
+`expected_time`, `scheduled_time`, `platform` and `cancelled` (number of cancelled trains). With
+no train, `minutes` is 1440 and the sentence says so.
+
+## Scene examples
+
+- _Every weekday at 7:30_ → **Get the next trains** (Monza, Regional, → Milano) → send `sentence`
+  to your phone.
+- **Time to leave** (Roma Termini, Frecce → Napoli, 15 min) → announce it on a speaker.
+- **Train cancelled** (your station) → send a message with the train number and its time.
+
+## Data, refresh and quotas
+
+The integration reads, for the created devices only, the departures of each station
+(`partenze`, the trains of the next hour or two) at the chosen interval; the station search
+(`cercaStazione`, `regione`, `dettaglioStazione`) only when you search or add a station.
+Viaggiatreno publishes no quota nor terms for this use: keep it personal. One request per station
+per minute at most keeps the use light. Its CDN refuses requests without a browser-like
+User-Agent (HTTP 403): the integration sends one naming itself. Only `/data/watch.json` is
+written: the stations you watch and their filters.
 
 ## Troubleshooting
 
-The integration logs everything it does: check the integration logs from the
-Gladys UI (or `docker logs` on the host) with `LOG_LEVEL=debug` for the full
-detail.
+- **No value on a new device**: wait for the next refresh (one minute), or check **Status**.
+- **“Viaggiatreno cannot be read”**: the site is unreachable, refuses the request (HTTP 403) or
+  answers an error page; the integration retries at each refresh and the countdowns go on
+  meanwhile.
+- **A train is missing**: it has left, or is more than an hour or two away, or does not match
+  the filters of the watch.
+- **Logs**: set `LOG_LEVEL=debug` to see every read.
+
+## Limits
+
+- The trains Viaggiatreno shows: Trenitalia and the regional operators of the RFI network.
+  Italo (NTV) trains are not covered.
+- Viaggiatreno is unofficial and undocumented: a change on its side can break the integration
+  until an update.
+- Partially cancelled trains and diversions are shown as running.
+- Up to 10 watched stations. Feature names are set when the device is created.
+
+## Credits
+
+Data: [Viaggiatreno](http://www.viaggiatreno.it), RFI and Trenitalia. The use of this service
+follows the Home Assistant `viaggiatreno` integration (Apache 2.0). Logo on the cover: Trenitalia
+(trademark of its owner).

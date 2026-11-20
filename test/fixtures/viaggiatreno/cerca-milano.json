@@ -1,0 +1,158 @@
+[
+  {
+    "nomeLungo": "MILANO CENTRALE",
+    "nomeBreve": "MILANO CENTRALE",
+    "label": "Milano",
+    "id": "S01700"
+  },
+  {
+    "nomeLungo": "MILANO AFFORI",
+    "nomeBreve": "Milano Affori",
+    "label": "Milano",
+    "id": "S01078"
+  },
+  {
+    "nomeLungo": "MILANO BOVISA POLITECNICO",
+    "nomeBreve": "MI BOVISA P.",
+    "label": "Mi",
+    "id": "S01642"
+  },
+  {
+    "nomeLungo": "MILANO BRUZZANO PARCO NORD",
+    "nomeBreve": "Milano Bruz.P.N.",
+    "label": "Milano",
+    "id": "S01079"
+  },
+  {
+    "nomeLungo": "MILANO CADORNA",
+    "nomeBreve": "MILANO CADORNA",
+    "label": "Milano",
+    "id": "S01066"
+  },
+  {
+    "nomeLungo": "MILANO CERTOSA",
+    "nomeBreve": "MILANO CERTOSA",
+    "label": "Milano",
+    "id": "S01640"
+  },
+  {
+    "nomeLungo": "MILANO DATEO",
+    "nomeBreve": "Milano Dateo",
+    "label": "Milano",
+    "id": "S01650"
+  },
+  {
+    "nomeLungo": "MILANO DOMODOSSOLA",
+    "nomeBreve": "Mi.Domodossola",
+    "label": "Mi.domodossola",
+    "id": "S01067"
+  },
+  {
+    "nomeLungo": "MILANO FARINI",
+    "nomeBreve": "Milano Farini",
+    "label": null,
+    "id": "S01644"
+  },
+  {
+    "nomeLungo": "MILANO FORLANINI",
+    "nomeBreve": "Mi.Forlanini",
+    "label": "Mi.forlanini",
+    "id": "S01492"
+  },
+  {
+    "nomeLungo": "MILANO GRECO PIRELLI",
+    "nomeBreve": "MI.GRECO PIRELLI",
+    "label": "Mi.greco",
+    "id": "S01326"
+  },
+  {
+    "nomeLungo": "MILANO LAMBRATE",
+    "nomeBreve": "MILANO LAMBRATE",
+    "label": "Milano",
+    "id": "S01701"
+  },
+  {
+    "nomeLungo": "MILANO LANCETTI",
+    "nomeBreve": "MI LANCETTI",
+    "label": "Mi",
+    "id": "S01643"
+  },
+  {
+    "nomeLungo": "MILANO PORTA GARIBALDI",
+    "nomeBreve": "MI.P.GARIBALDI",
+    "label": "Mi.p.garibaldi",
+    "id": "S01645"
+  },
+  {
+    "nomeLungo": "MILANO PORTA GARIBALDI SOTTERRANEA",
+    "nomeBreve": "Mi P.Gar.Sott.",
+    "label": "Mi",
+    "id": "S01647"
+  },
+  {
+    "nomeLungo": "MILANO PORTA GENOVA",
+    "nomeBreve": "MI.P.GENOVA",
+    "label": "Mi.p.genova",
+    "id": "S01631"
+  },
+  {
+    "nomeLungo": "MILANO PORTA VENEZIA",
+    "nomeBreve": "Mi. P. Venezia",
+    "label": "Mi.",
+    "id": "S01649"
+  },
+  {
+    "nomeLungo": "MILANO PORTA VITTORIA",
+    "nomeBreve": "MI. P. VITTORIA",
+    "label": "Mi.",
+    "id": "S01633"
+  },
+  {
+    "nomeLungo": "MILANO QUARTO OGGIARO",
+    "nomeBreve": "Mi.Qua.Oggiaro",
+    "label": "Mi.qua.oggiaro",
+    "id": "S01069"
+  },
+  {
+    "nomeLungo": "MILANO REPUBBLICA",
+    "nomeBreve": "Mi Repubblica",
+    "label": "Mi",
+    "id": "S01648"
+  },
+  {
+    "nomeLungo": "MILANO ROGOREDO",
+    "nomeBreve": "MILANO ROGOREDO",
+    "label": "Rogoredo",
+    "id": "S01820"
+  },
+  {
+    "nomeLungo": "MILANO ROMOLO",
+    "nomeBreve": "Milano Romolo",
+    "label": "Milano",
+    "id": "S01032"
+  },
+  {
+    "nomeLungo": "MILANO S.CRISTOFORO",
+    "nomeBreve": "MI.S.CRISTOFORO",
+    "label": "Mi.s.cristoforo",
+    "id": "S01630"
+  },
+  {
+    "nomeLungo": "MILANO SCALO ROMANA",
+    "nomeBreve": "Milano SC.Romana",
+    "label": "Milano",
+    "id": "S01632"
+  },
+  {
+    "nomeLungo": "MILANO TIBALDI UNIVERSITA' BOCCONI",
+    "nomeBreve": "Milano Tibaldi",
+    "label": "Milano",
+    "id": "S01022"
+  },
+  {
+    "nomeLungo": "MILANO VILLAPIZZONE",
+    "nomeBreve": "Mi Villapizzone",
+    "label": "Mi",
+    "id": "S01639"
+  }
+]
