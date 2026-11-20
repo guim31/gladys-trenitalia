@@ -84,7 +84,7 @@ Cada estación seguida tiene seis funciones:
 | Trenes cancelados        | el número de trenes cancelados en el panel de la estación seguida    |
 
 Las horas son hora italiana, retraso incluido. Un tren cancelado nunca es «el próximo tren». Un
-tren cuya hora ha pasado pero que aún no ha salido cuenta como saliendo ahora, con el retraso de los minutos ya pasados. Viaggiatreno solo da
+tren cuya hora ha pasado pero que aún no ha salido cuenta como saliendo ahora, con el retraso de los minutos ya pasados; 15 minutos después de su hora sin noticias, se considera salido. El disparador «Tren con retraso» solo sigue el retraso que anuncia Viaggiatreno. Viaggiatreno solo da
 el retraso de un tren una vez que ha salido de su origen: antes, cuenta como puntual. Entre dos
 lecturas, las cuentas atrás siguen desde la última respuesta.
 

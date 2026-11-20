@@ -53,13 +53,19 @@ export function registerHandlers(gladys, options = {}) {
         await service.resync(config);
         return;
       }
-      started = true;
       await service.start(config);
+      // Only once started: a failed start is tried again at the next connection.
+      started = true;
     } catch (err) {
       logger.error('Initialization failed', err);
       await gladys.setConnectionStatus(false, INIT_FAILED).catch(() => {});
     } finally {
       resolveReady();
+    }
+    // The first read after the handlers are free: an action never waits for
+    // Viaggiatreno to answer for every watched station.
+    if (started) {
+      await service.refresh().catch((err) => logger.error('First read failed', err));
     }
   });
 

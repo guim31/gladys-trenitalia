@@ -146,6 +146,7 @@ export async function createWorld({
   if (connect) {
     await gladys.connect();
     await app.ready;
+    await app.service.inflight;
   }
   return world;
 }

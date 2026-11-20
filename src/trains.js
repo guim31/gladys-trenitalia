@@ -15,6 +15,9 @@ export const CATEGORY_GROUPS = {
 export const CATEGORIES = Object.keys(CATEGORY_GROUPS);
 // Provvedimento 1: the train is cancelled (3, a diversion, still runs).
 const CANCELLED = 1;
+// A train without reported delay still listed this long after its time has
+// most likely left unseen (Viaggiatreno keeps such records): dropped.
+export const GHOST_MINUTES = 15;
 const ROME_TIME = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Europe/Rome',
   hour: '2-digit',
@@ -84,11 +87,16 @@ export function parseDepartures(records, now) {
     // Null until the train has left its origin. A train still in the station
     // after its time (Viaggiatreno says "not departed" and nothing more) is at
     // least that late: the minutes already gone count as delay.
+    const known = record.ritardo !== null && record.ritardo !== undefined && record.ritardo !== '';
     const reported = Math.max(0, Math.round(Number(record.ritardo) || 0));
     const overdue = Math.floor((now - scheduledAt - reported * 60000) / 60000);
+    if (!cancelled && !known && overdue > GHOST_MINUTES) {
+      continue;
+    }
     const late = cancelled ? 0 : reported + Math.max(0, overdue);
-    // Less than a minute overdue: it leaves now.
-    const expected = Math.max(scheduledAt + late * 60000, now);
+    // Less than a minute overdue: it leaves now. A cancelled train keeps its
+    // time: it stays on the board until then, never "now".
+    const expected = cancelled ? scheduledAt : Math.max(scheduledAt + late * 60000, now);
     const platform = String(
       record.binarioEffettivoPartenzaDescrizione ||
         record.binarioProgrammatoPartenzaDescrizione ||
@@ -105,6 +113,9 @@ export function parseDepartures(records, now) {
       time: romeTime(scheduledAt + late * 60000),
       scheduled: romeTime(scheduledAt),
       late,
+      // The delay Viaggiatreno reports (the scene triggers fire on it only,
+      // never on minutes inferred from the clock).
+      reportedLate: cancelled ? 0 : reported,
       platform,
       cancelled,
       minutes: Math.max(0, Math.ceil((expected - now) / 60000)),

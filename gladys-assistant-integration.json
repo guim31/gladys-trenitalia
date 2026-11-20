@@ -248,10 +248,10 @@
             {
               "value": "intercity",
               "label": {
-                "en": "Intercity only (IC, ICN, EC)",
-                "fr": "Intercity seulement (IC, ICN, EC)",
-                "de": "Nur Intercity (IC, ICN, EC)",
-                "es": "Solo Intercity (IC, ICN, EC)"
+                "en": "Intercity only (IC, ICN, EC, EN)",
+                "fr": "Intercity seulement (IC, ICN, EC, EN)",
+                "de": "Nur Intercity (IC, ICN, EC, EN)",
+                "es": "Solo Intercity (IC, ICN, EC, EN)"
               }
             }
           ]

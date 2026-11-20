@@ -286,4 +286,5 @@ long, et sur un « Sie »/« Ihr… » de politesse en allemand. Le store exige 
 - Les heures affichées sont celles de l'Italie (`Intl`, `Europe/Rome`), pas le `TZ` de Gladys.
 - Un train **non parti après son heure** reste au tableau avec `ritardo` null (vu en réel : un REG
   « non partito » 15 min après 22:48) : son retard est déduit des minutes écoulées, sinon il
-  s'affichait « à l'heure, 0 min ».
+  s'affichait « à l'heure, 0 min ». Plafond : sans `ritardo`, 15 min après son heure il est
+  écarté (fantôme), et `train_delayed` ne suit que le retard annoncé (`reportedLate`).

@@ -84,7 +84,7 @@ Chaque gare suivie a six fonctionnalités :
 | Trains supprimés              | le nombre de trains supprimés au tableau de la gare suivie       |
 
 Les heures sont à l'heure italienne, retard compris. Un train supprimé n'est jamais « le prochain
-train ». Un train dont l'heure est passée mais qui n'est pas encore parti compte comme partant maintenant, en retard des minutes déjà passées. Viaggiatreno ne donne le retard d'un train qu'une fois parti de son origine : avant,
+train ». Un train dont l'heure est passée mais qui n'est pas encore parti compte comme partant maintenant, en retard des minutes déjà passées ; 15 minutes après son heure sans nouvelles, il est considéré comme parti. Le déclencheur « Train en retard » ne suit que le retard annoncé par Viaggiatreno. Viaggiatreno ne donne le retard d'un train qu'une fois parti de son origine : avant,
 il compte comme à l'heure. Entre deux lectures, les comptes à rebours continuent à partir de la
 dernière réponse.
 

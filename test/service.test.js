@@ -409,3 +409,51 @@ test('a live board without network sends nothing: createFetch is the only networ
   const network = createFetch();
   assert.deepEqual(Object.keys(network.boards).sort(), ['S00219', 'S01700', 'S06421', 'S08409']);
 });
+
+test('at a 5-minute interval, the countdowns go on every minute from the last board', async (t) => {
+  t.mock.timers.enable({ apis: ['setInterval'] });
+  const { world, device } = await milano(t, { timers: true, config: { refresh_interval: '300' } });
+  const reads = world.network.boardRequests().length;
+  world.clock.advance(60000);
+  t.mock.timers.tick(60000);
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(lastState(world, device, 'next'), 2);
+  assert.equal(world.network.boardRequests().length, reads, 'no new read');
+});
+
+test('a delay inferred from the clock never fires "train delayed"', async (t) => {
+  const world = await createWorld();
+  t.after(() => world.app.stop());
+  await action(world, 'add_station', { station: 'S08409' });
+  await create(world, 'Roma Termini');
+  const before = world.fake.sceneEvents.length;
+  // REG 4538 still in the station, 12 minutes after its 22:48.
+  world.clock.advance(8 * 60000);
+  await world.service.refresh();
+  const delayed = world.fake.sceneEvents
+    .slice(before)
+    .filter((event) => event.key === TRIGGERS.DELAYED);
+  assert.deepEqual(delayed, []);
+});
+
+test('a failed start is tried again at the next connection', async (t) => {
+  const world = await createWorld({ connect: false });
+  t.after(() => world.app.stop());
+  const load = world.store.load.bind(world.store);
+  let calls = 0;
+  world.store.load = async () => {
+    calls += 1;
+    if (calls === 1) {
+      throw new Error('disk');
+    }
+    return load();
+  };
+  await world.gladys.connect();
+  await world.app.ready;
+  assert.equal(world.fake.connectionStatus.connected, false);
+  world.gladys.emit('connected');
+  await new Promise((resolve) => setTimeout(resolve, 50));
+  await world.service.inflight;
+  assert.equal(calls, 2);
+  assert.equal(world.fake.connectionStatus.connected, true);
+});

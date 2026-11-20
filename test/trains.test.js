@@ -128,3 +128,25 @@ test('names: title case, folded comparisons, the station of a typed name', () =>
   );
   assert.equal(pickStations(stations, 'milano porta').length, 2);
 });
+
+test('a train never seen leaving, long after its time, is a ghost: dropped', () => {
+  const [terni] = recordedBoard('S08409').filter((record) => record.numeroTreno === 4538);
+  const at = (minutes) =>
+    parseDepartures([terni], Date.parse('2026-11-20T21:48:00Z') + minutes * 60000);
+  assert.equal(at(10)[0].late, 10);
+  assert.equal(at(10)[0].reportedLate, 0, 'inferred, not reported');
+  assert.equal(at(15)[0].late, 15);
+  assert.deepEqual(at(16), []);
+  // With a reported delay, it stays.
+  assert.equal(
+    parseDepartures([{ ...terni, ritardo: 30 }], Date.parse('2026-11-20T22:30:00Z'))[0].late,
+    42,
+  );
+});
+
+test('a cancelled train keeps its time: it stays on the board until then', () => {
+  const departures = board('S06421');
+  const later = aged(departures, FIXTURE_TIME + 10 * 60000);
+  assert.equal(later.length, 3);
+  assert.equal(later[0].minutes, 5);
+});

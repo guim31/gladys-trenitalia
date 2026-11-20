@@ -82,7 +82,7 @@ Each watched station has six features:
 | Cancelled trains           | the number of cancelled trains on the board of the watch         |
 
 Times are Italian time, delay included. A cancelled train is never “the next train”. A train
-whose time has passed but that has not left yet counts as leaving now, late by the minutes already gone. Viaggiatreno only gives
+whose time has passed but that has not left yet counts as leaving now, late by the minutes already gone; 15 minutes after its time without news, it is taken as gone. The “Train delayed” trigger only follows the delay Viaggiatreno reports. Viaggiatreno only gives
 the delay of a train once it has left its origin: before, it counts as on time. Between two
 reads the countdowns go on from the last answer.
 

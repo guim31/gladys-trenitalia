@@ -98,7 +98,6 @@ export class TrenitaliaService {
     await this.publishDiscovered();
     await this.gladys.setConnectionStatus(true).catch(() => {});
     this.startTimer();
-    await this.refresh();
   }
 
   async resync(config) {
@@ -121,18 +120,32 @@ export class TrenitaliaService {
 
   startTimer() {
     clearInterval(this.timer);
+    clearInterval(this.ticker);
     this.timer = null;
+    this.ticker = null;
     if (this.timers) {
       this.timer = setInterval(() => {
         this.refresh().catch((err) => logger.error('Refresh failed', err));
       }, this.config.refreshSeconds * 1000);
       this.timer.unref?.();
+      // Between two reads farther apart than a minute, the countdowns go on
+      // from the last board (only the changed states are sent).
+      if (this.config.refreshSeconds > 60) {
+        this.ticker = setInterval(() => {
+          if (!this.inflight) {
+            this.publishAll().catch((err) => logger.error('Countdown failed', err));
+          }
+        }, 60000);
+        this.ticker.unref?.();
+      }
     }
   }
 
   async stop() {
     clearInterval(this.timer);
+    clearInterval(this.ticker);
     this.timer = null;
+    this.ticker = null;
     await this.inflight?.catch(() => {});
     await this.store.flush();
   }
@@ -382,7 +395,7 @@ export class TrenitaliaService {
     const slack = Math.ceil(this.config.refreshSeconds / 60);
     for (const departure of departures) {
       const memory = previous.get(departure.key);
-      const delay = departure.late;
+      const delay = departure.reportedLate;
       if (!memory) {
         // First seen: the countdown thresholds already passed are not news; a
         // delay or a cancellation is, except at the first read after a start.
