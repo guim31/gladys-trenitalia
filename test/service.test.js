@@ -116,9 +116,9 @@ test('the filters of a watch: Frecce to Napoli, Intercity', async (t) => {
   await action(world, 'add_station', { station: 'S08409', category: 'intercity' });
   const frecce = await create(world, 'Frecce');
   const intercity = await create(world, 'Intercity');
-  assert.equal(lastState(world, frecce, 'destination'), '22:51 FR 9663 → Napoli Centrale');
+  assert.equal(lastState(world, frecce, 'destination'), '22:52 FR 9663 → Napoli Centrale');
   assert.equal(lastState(world, frecce, 'next'), 0);
-  assert.equal(lastState(world, frecce, 'delay'), 1);
+  assert.equal(lastState(world, frecce, 'delay'), 2);
   assert.equal(lastState(world, frecce, 'platform'), '3');
   assert.equal(lastState(world, frecce, 'following'), NO_DEPARTURE_MINUTES);
   assert.equal(lastState(world, intercity, 'next'), 8);
@@ -303,8 +303,8 @@ test('the widget: a row per departure, coloured by delay, within the core budget
   const rows = content.components.at(-1).items;
   assert.equal(rows.length, 5);
   assert.deepEqual(rows[1], {
-    label: '22:51 → Napoli Centrale',
-    value: '0 min · FR 9663 · pl. 3 · +1 min',
+    label: '22:52 → Napoli Centrale',
+    value: '0 min · FR 9663 · pl. 3 · +2 min',
     color: 'success',
   });
   assert.equal(rows[3].value, '8 min · ICN 95063 · on time');
@@ -319,7 +319,7 @@ test('the widget: a row per departure, coloured by delay, within the core budget
   assert.equal(bare.data.content.components[1].items.length, 3);
   assert.equal(
     bare.data.content.components[1].items[0].value,
-    '0 Min. · REG 4538 · Gl. 2 EST · pünktli…',
+    '0 Min. · REG 4538 · Gl. 2 EST · +4 Min.',
   );
   const none = await world.fake.widgetGet('departures', { settings: {}, language: 'es' });
   assert.match(none.data.content.components[0].text, /Elija una estación/);
@@ -336,7 +336,7 @@ test('a lost /data: the stations are rebuilt from the Gladys devices', async (t)
     world.service.watches.map((watch) => [watch.code, watch.name, watch.category]),
     [['S08409', 'Roma Termini', 'high_speed']],
   );
-  assert.equal(lastState(world, device, 'destination'), '22:51 FR 9663 → Napoli Centrale');
+  assert.equal(lastState(world, device, 'destination'), '22:52 FR 9663 → Napoli Centrale');
 });
 
 test('remove: by the name shown in the status; an unknown name fails in red', async (t) => {

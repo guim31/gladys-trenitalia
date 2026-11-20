@@ -84,8 +84,7 @@ Jeder verfolgte Bahnhof hat sechs Funktionen:
 | Ausgefallene Züge            | die Zahl der ausgefallenen Züge auf der Anzeige des Bahnhofs          |
 
 Die Uhrzeiten sind italienische Zeit, Verspätung eingerechnet. Ein ausgefallener Zug ist nie „der
-nächste Zug“. Ein Zug, dessen Zeit vorbei ist, der aber noch nicht abgefahren ist, gilt als jetzt
-abfahrend. Viaggiatreno gibt die Verspätung eines Zugs erst an, wenn er seinen Startbahnhof
+nächste Zug“. Ein Zug, dessen Zeit vorbei ist, der aber noch nicht abgefahren ist, gilt als jetzt abfahrend, verspätet um die schon vergangenen Minuten. Viaggiatreno gibt die Verspätung eines Zugs erst an, wenn er seinen Startbahnhof
 verlassen hat: vorher gilt er als pünktlich. Zwischen zwei Abfragen laufen die Countdowns ab der
 letzten Antwort weiter.
 

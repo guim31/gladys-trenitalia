@@ -43,13 +43,13 @@ test('Milano Centrale: the train that left is dropped, the others count down', (
   assert.equal(next.expected, FIXTURE_TIME + 3 * 60000);
 });
 
-test('Roma Termini: Frecciarossa, Intercity, a delay, a train still in the station', () => {
+test('Roma Termini: Frecciarossa, Intercity, trains still in the station after their time', () => {
   const departures = board('S08409');
   assert.deepEqual(
     departures.map((d) => `${d.time} ${d.number} ${d.destination} ${d.minutes}`),
     [
-      '22:48 REG 4538 Terni 0',
-      '22:51 FR 9663 Napoli Centrale 0',
+      '22:52 REG 4538 Terni 0',
+      '22:52 FR 9663 Napoli Centrale 0',
       '23:00 IC 764 Bolzano 8',
       '23:00 ICN 95063 Villa S.Giovanni 8',
       '23:56 ICN 789 Lecce 64',
@@ -58,8 +58,11 @@ test('Roma Termini: Frecciarossa, Intercity, a delay, a train still in the stati
   const frecciarossa = departures[1];
   assert.deepEqual(
     [frecciarossa.category, frecciarossa.group, frecciarossa.late, frecciarossa.scheduled],
-    ['FR', 'high_speed', 1, '22:50'],
+    ['FR', 'high_speed', 2, '22:50'],
   );
+  // Still in the station 4 minutes after its time, without a reported delay:
+  // 4 minutes late; the Frecciarossa reported 1 and is 2 past its 22:51.
+  assert.deepEqual([departures[0].late, departures[0].scheduled], [4, '22:48']);
   // The IC 764 is diverted (provvedimento 3): it still runs.
   assert.equal(departures[2].cancelled, false);
   assert.equal(departures[3].platform, '');

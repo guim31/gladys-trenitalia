@@ -81,9 +81,13 @@ export function parseDepartures(records, now) {
       .trim()
       .toUpperCase();
     const cancelled = Number(record.provvedimento) === CANCELLED;
-    // Null until the train has left its origin: on time as far as anyone knows.
-    const late = cancelled ? 0 : Math.max(0, Math.round(Number(record.ritardo) || 0));
-    // A train past its time but still in the station leaves now.
+    // Null until the train has left its origin. A train still in the station
+    // after its time (Viaggiatreno says "not departed" and nothing more) is at
+    // least that late: the minutes already gone count as delay.
+    const reported = Math.max(0, Math.round(Number(record.ritardo) || 0));
+    const overdue = Math.floor((now - scheduledAt - reported * 60000) / 60000);
+    const late = cancelled ? 0 : reported + Math.max(0, overdue);
+    // Less than a minute overdue: it leaves now.
     const expected = Math.max(scheduledAt + late * 60000, now);
     const platform = String(
       record.binarioEffettivoPartenzaDescrizione ||

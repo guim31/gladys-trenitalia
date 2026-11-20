@@ -284,3 +284,6 @@ long, et sur un « Sie »/« Ihr… » de politesse en allemand. Le store exige 
   ne trouve rien, « FORLI » oui). Un code se résout par `regione/<code>` (204 vide si inconnu) puis
   `dettaglioStazione/<code>/<région>` → `localita.nomeLungo`. Code inconnu dans `partenze` : `[]`.
 - Les heures affichées sont celles de l'Italie (`Intl`, `Europe/Rome`), pas le `TZ` de Gladys.
+- Un train **non parti après son heure** reste au tableau avec `ritardo` null (vu en réel : un REG
+  « non partito » 15 min après 22:48) : son retard est déduit des minutes écoulées, sinon il
+  s'affichait « à l'heure, 0 min ».
