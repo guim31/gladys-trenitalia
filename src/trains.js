@@ -18,6 +18,7 @@ const CANCELLED = 1;
 // A train without reported delay still listed this long after its time has
 // most likely left unseen (Viaggiatreno keeps such records): dropped.
 export const GHOST_MINUTES = 15;
+const CANCELLED_KEPT_MS = 3600000;
 const ROME_TIME = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Europe/Rome',
   hour: '2-digit',
@@ -146,7 +147,13 @@ export function applyFilters(departures, watch) {
  */
 export const aged = (departures, now) =>
   departures
-    .filter((departure) => departure.expected >= now - 60000)
+    // A cancelled train stays as long as Viaggiatreno lists it (the next read
+    // decides), an hour past its time at most when the reads fail.
+    .filter((departure) =>
+      departure.cancelled
+        ? departure.expected >= now - CANCELLED_KEPT_MS
+        : departure.expected >= now - 60000,
+    )
     .map((departure) => ({
       ...departure,
       minutes: Math.max(0, Math.ceil((departure.expected - now) / 60000)),

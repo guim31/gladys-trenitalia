@@ -149,4 +149,8 @@ test('a cancelled train keeps its time: it stays on the board until then', () =>
   const later = aged(departures, FIXTURE_TIME + 10 * 60000);
   assert.equal(later.length, 3);
   assert.equal(later[0].minutes, 5);
+  // Past its time, still listed: kept and counted; an hour later, gone.
+  assert.equal(aged(departures, FIXTURE_TIME + 30 * 60000).length, 3);
+  assert.equal(aged(departures, FIXTURE_TIME + 30 * 60000)[0].minutes, 0);
+  assert.equal(aged(departures, FIXTURE_TIME + 80 * 60000).length, 2, 'the 23:07 one is gone');
 });
